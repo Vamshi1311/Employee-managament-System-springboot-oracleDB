@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    image: tomcat
+    ports:
+      - 8081:8080
+    networks:
+     - springnetwork
+
+  oracle-db:
+    image: container-registry.oracle.com/database/express
+    container_name: oracle-db
+    environment:
+      - ORACLE_PWD=oracle123
+    ports:
+      - 1521:1521
+      - 5500:5500
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - oracle-backup:/opt/oracle/backup
+    networks:
+      - springnetwork
+    
+volumes:
+ oracle-data:
+ oracle-backup:
+
+networks:
+ springnetwork:
